@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package com.cesargm.countdays;
 
 import static org.junit.Assert.assertEquals;
@@ -11,10 +9,12 @@ import org.junit.Test;
 
 /**
  * @author cesargm
- * 
+ * InitCountDaysTest Class with all test cases
  */
 public class InitCountDaysTest {
 	//private CountDaysEvent classCountDaysEvent;
+	private DatesEvent date1;
+	private DatesEvent date2;
 
 	@Before
 	public void setUp() throws Exception {
@@ -23,88 +23,113 @@ public class InitCountDaysTest {
 	
 	@After
 	public void tearDown() throws Exception {
+		date1 = null;
+		date2 = null;
 	}
 
 	@Test(expected = RuntimeException.class)
 	public final void whenInputHasNotFormatThenThrowsException() {
-		InitCountDays.calculateDays("1982 11 14", "12 2900 23");
+		date1 = new DatesEvent("1982 11 14");
+		date2 = new DatesEvent("12 2900 23");
 	}
 
 	@Test(expected = RuntimeException.class)
 	public void whenInputHasLettersThenThrowsException() {
-		InitCountDays.calculateDays("11/09/198e", "a1/12/1999");
+		date1 = new DatesEvent("11/09/198e");
+		date2 = new DatesEvent("a1/12/1999");
 	}
 	
 	@Test(expected = RuntimeException.class)
 	public void whenEmptyStringsThenThrowsException() {
-		InitCountDays.calculateDays("", "");
+		date1 = new DatesEvent("");
+		date2 = new DatesEvent("");
 	}
 	
 	@Test(expected = RuntimeException.class)
 	public void whenInvalidDayThenThrowsException() {
-		InitCountDays.calculateDays("32/11/1999", "-1/09/1999");
+		date1 = new DatesEvent("32/11/1999");
+		date2 = new DatesEvent("-1/09/1999");
 	}
 	
 	@Test(expected = RuntimeException.class)
 	public void whenInvalidMonthThenThrowsException() {
-		InitCountDays.calculateDays("02/222/2108", "12/0/2001");
+		date1 = new DatesEvent("02/222/2108");
+		date2 = new DatesEvent("12/0/2001");
 	}
 	
 	@Test(expected = RuntimeException.class)
 	public void whenInvalidYearThenThrowsException() {
-		InitCountDays.calculateDays("03/12/50000", "18/10/-2018");
+		date1 = new DatesEvent("03/12/50000");
+		date2 = new DatesEvent("18/10/-2018");
 	}
 	
 	@Test(expected = RuntimeException.class)
 	public void whenInvalidDateRangeThenThrowsException() {
-		InitCountDays.calculateDays("05/06/1900", "23/04/2018");
+		date1 = new DatesEvent("05/06/1900");
+		date2 = new DatesEvent("23/04/2018");
 	}
 	
 	@Test
 	public void whenSameYearSameMonth() {
-		Integer days = InitCountDays.calculateDays("02/06/1983", "22/06/1983");
+		date1 = new DatesEvent("02/06/1983");
+		date2 = new DatesEvent("22/06/1983");
+		Integer days = InitCountDays.calculateDays(date1, date2);
 		assertEquals(19, days.intValue());
 	}
 	
 	@Test
 	public void whenSameDates() {
-		Integer days = InitCountDays.calculateDays("05/06/2018", "05/06/2018");
+		date1 = new DatesEvent("05/06/2018");
+		date2 = new DatesEvent("05/06/2018");
+		Integer days = InitCountDays.calculateDays(date1, date2);
 		assertEquals(0, days.intValue());
 	}
 	
 	@Test
 	public void whenNoFullyElapsedDays() {
-		Integer days = InitCountDays.calculateDays("07/11/1972", "08/11/1972");
+		date1 = new DatesEvent("07/11/1972");
+		date2 = new DatesEvent("08/11/1972");
+		Integer days = InitCountDays.calculateDays(date1, date2);
 		assertEquals(0, days.intValue());
 	}
 	
 	@Test
 	public void whenSameYearDifferentMonth() {
-		Integer days = InitCountDays.calculateDays("04/07/1984", "25/12/1984");
+		date1 = new DatesEvent("04/07/1984");
+		date2 = new DatesEvent("25/12/1984");
+		Integer days = InitCountDays.calculateDays(date1, date2);
 		assertEquals(173, days.intValue());
 	}
 	
 	@Test
 	public void whenSameMonthDifferentYear() {
-		Integer days = InitCountDays.calculateDays("05/06/2017", "04/06/2018");
+		date1 = new DatesEvent("05/06/2017");
+		date2 = new DatesEvent("04/06/2018");
+		Integer days = InitCountDays.calculateDays(date1, date2);
 		assertEquals(363, days.intValue());
 	}
 	
 	@Test
 	public void whenDifferentValidYearMonthDay() {
-		Integer days = InitCountDays.calculateDays("03/08/1983", "03/01/1989");
+		date1 = new DatesEvent("03/08/1983");
+		date2 = new DatesEvent("03/01/1989");
+		Integer days = InitCountDays.calculateDays(date1, date2);
 		assertEquals(1979, days.intValue());
 	}
 	
 	@Test
 	public void whenAllValidDates() {
-		Integer days = InitCountDays.calculateDays("01/01/1901", "31/12/2999");
+		date1 = new DatesEvent("01/01/1901");
+		date2 = new DatesEvent("31/12/2999");
+		Integer days = InitCountDays.calculateDays(date1, date2);
 		assertEquals(401400, days.intValue());
 	}
 	
 	@Test
 	public void whenSameDaySameMonth() {
-		Integer days = InitCountDays.calculateDays("01/02/2000", "01/02/2004");
+		date1 = new DatesEvent("01/02/2000");
+		date2 = new DatesEvent("01/02/2004");
+		Integer days = InitCountDays.calculateDays(date1, date2);
 		assertEquals(1460, days.intValue());
 	}
 }
