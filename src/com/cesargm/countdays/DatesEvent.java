@@ -1,11 +1,9 @@
-/**
- * 
- */
+
 package com.cesargm.countdays;
 
 /**
  * @author cesargm
- *
+ * DatesEvent Class that define date data. Receives a String with the date.
  */
 public class DatesEvent {
 	
@@ -13,7 +11,10 @@ public class DatesEvent {
 	private final Integer month;
 	private final Integer year;
 	
-	
+	/**
+	 * Creates a new Immutable object with date information
+	 * @param dateEvent date in dd/mm/yyyy format
+	 */
 	public DatesEvent(String dateEvent) {
 		String[] d = dateEvent.split("/");
 		this.day = Integer.valueOf(d[0]);
@@ -35,7 +36,7 @@ public class DatesEvent {
 	}
 	
 	/*
-	 * Validate day, month and year
+	 * Validates day, month and year
 	 */
 	public void validateDates() {
 		if(day<1 || day>31) {
